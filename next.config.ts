@@ -5,9 +5,9 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
 });
-
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Add this line to silence the error if you don't need custom Turbopack options
+  turbopack: {},
 };
 
 export default withPWA(nextConfig);
