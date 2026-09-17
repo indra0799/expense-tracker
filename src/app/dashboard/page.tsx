@@ -74,8 +74,11 @@ export default async function DashboardPage() {
             </span>
           </summary>
           <div className="px-6 py-4">
-            {/* FIX: Passed Server Action directly to action attribute */}
-            <form action={addTransaction} className="grid gap-4 md:grid-cols-2">
+            {/* FIX: Wrapped in inline async function to satisfy TypeScript void requirement */}
+            <form action={async (formData) => {
+              'use server'
+              await addTransaction(formData)
+            }} className="grid gap-4 md:grid-cols-2">
               <input type="text" name="title" placeholder="Title (e.g. Groceries)" required className="rounded border p-2" />
               <input type="number" name="amount" placeholder="Amount (₹)" step="0.01" required className="rounded border p-2" />
               <input type="date" name="date" required defaultValue={new Date().toISOString().split('T')[0]} className="rounded border p-2" />
@@ -110,8 +113,11 @@ export default async function DashboardPage() {
                     <p className={`font-medium ${t.type === 'expense' ? 'text-red-600' : 'text-green-600'}`}>
                       {t.type === 'expense' ? '-' : '+'}₹{Number(t.amount).toFixed(2)}
                     </p>
-                    {/* FIX: Passed Server Action directly to action attribute */}
-                    <form action={deleteTransaction}>
+                    {/* FIX: Wrapped in inline async function to satisfy TypeScript void requirement */}
+                    <form action={async (formData) => {
+                      'use server'
+                      await deleteTransaction(formData)
+                    }}>
                       <input type="hidden" name="id" value={t.id} />
                       <button type="submit" className="text-gray-400 hover:text-red-600">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
